@@ -42,7 +42,6 @@ console.log(document.body);
 */
 
 const header = document.querySelector('.header');
-const allSections = document.querySelectorAll('section');
 
 // console.log(allSections);
 
@@ -185,6 +184,7 @@ const handleHover = function (e) {
   if (e.target.classList.contains('nav__link')) {
     const link = e.target;
     const siblings = link.closest('.nav').querySelectorAll('.nav__link');
+    //getting ALL the siblings by traversing up to the parent and then back down to it's children
     const logo = link.closest('.nav').querySelector('img');
 
     siblings.forEach(el => {
@@ -217,6 +217,7 @@ window.addEventListener('scroll', function (e) {
 
 //Sticky navigation : Intersection Observer API
 
+/*
 const obsCallback = function (entries, observer) {
   entries.forEach(entry => {
     console.log(entry);
@@ -233,11 +234,12 @@ const obsOptions = {
 
 const observer = new IntersectionObserver(obsCallback, obsOptions);
 observer.observe(section1);
+*/
 
 //sticky nav for header
 const stickyNav = function (entries) {
   const [entry] = entries;
-  console.log(entry);
+  //console.log(entry);
   if (!entry.isIntersecting) nav.classList.add('sticky');
   else nav.classList.remove('sticky');
 };
@@ -250,3 +252,27 @@ const headerObserver = new IntersectionObserver(stickyNav, {
   rootMargin: `-${navHeight}px`,
 });
 headerObserver.observe(header1);
+
+///////////////////////////////////////
+// Reveal sections
+const allSections = document.querySelectorAll('.section');
+
+const revealSection = function (entries, observer) {
+  const [entry] = entries;
+  console.log(entry);
+
+  if (!entry.isIntersecting) return;
+
+  entry.target.classList.remove('section--hidden');
+  observer.unobserve(entry.target);
+};
+
+const sectionObserver = new IntersectionObserver(revealSection, {
+  root: null,
+  threshold: 0.15,
+});
+
+allSections.forEach(function (section) {
+  sectionObserver.observe(section);
+  section.classList.add('section--hidden');
+});
