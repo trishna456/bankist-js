@@ -51,6 +51,9 @@ const allButtons = document.getElementsByTagName('button');
 
 // console.log(document.getElementsByClassName('btn'));
 
+///////////////////////////////////////
+// Cookie Message
+
 const message = document.createElement('div');
 message.classList.add('cookie-message');
 message.innerHTML =
@@ -85,6 +88,9 @@ message.style.height =
 
 //document.documentElement.style.setProperty('--color-primary', 'orangered');
 
+///////////////////////////////////////
+// Smooth Scrolling
+
 const btnScrollTo = document.querySelector('.btn--scroll-to');
 const section1 = document.getElementById('section--1');
 
@@ -116,4 +122,32 @@ btnScrollTo.addEventListener('click', function (e) {
   */
 
   section1.scrollIntoView({ behavior: 'smooth' });
+});
+
+///////////////////////////////////////
+// Page Navigation
+
+/*
+instead of putting the event listener on each of these elements, 
+use event delegation and put the event listener on the common parent of these elements, 
+use e.target to check which element originated the event
+*/
+
+/*
+document.querySelectorAll('.nav__link').forEach(function (el) {
+  el.addEventListener('click', function (e) {
+    e.preventDefault();
+    const id = this.getAttribute('href'); //gets the exact href as written
+    document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
+  });
+});
+*/
+
+document.querySelector('.nav__links').addEventListener('click', function (e) {
+  //matching strategy
+  e.preventDefault();
+  if (e.target.classList.contains('nav__link')) {
+    const id = e.target.getAttribute('href');
+    document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
+  }
 });
