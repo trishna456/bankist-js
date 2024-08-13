@@ -34,3 +34,86 @@ document.addEventListener('keydown', function (e) {
     closeModal();
   }
 });
+
+/*
+console.log(document.documentElement);
+console.log(document.head);
+console.log(document.body);
+*/
+
+const header = document.querySelector('.header');
+const allSections = document.querySelectorAll('section');
+
+// console.log(allSections);
+
+const allButtons = document.getElementsByTagName('button');
+// console.log(allButtons);
+
+// console.log(document.getElementsByClassName('btn'));
+
+const message = document.createElement('div');
+message.classList.add('cookie-message');
+message.innerHTML =
+  'We use cookies for improved functionality and analytics. <button class="btn btn--close-cookie">Got it!</button>';
+
+header.prepend(message);
+header.append(message);
+//header.prepend(message.cloneNode(true));
+
+document
+  .querySelector('.btn--close-cookie')
+  .addEventListener('click', function () {
+    message.remove(); //recent
+    //message.parentElement.removeChild(message);
+    //DOM traversing
+  });
+
+//inline styles
+message.style.backgroundColor = '#37383d';
+message.style.width = '120%';
+
+/*
+console.log(message.style.color); //will not get this because we have not set it with inline styles
+console.log(message.style.backgroundColor);
+
+console.log(getComputedStyle(message).color);
+console.log(getComputedStyle(message).height);
+*/
+
+message.style.height =
+  Number.parseFloat(getComputedStyle(message).height, 10) + 30 + 'px';
+
+//document.documentElement.style.setProperty('--color-primary', 'orangered');
+
+const btnScrollTo = document.querySelector('.btn--scroll-to');
+const section1 = document.getElementById('section--1');
+
+btnScrollTo.addEventListener('click', function (e) {
+  const s1coords = section1.getBoundingClientRect(); //relative to the visible viewport
+  console.log(s1coords);
+  console.log(e.target.getBoundingClientRect());
+
+  console.log('Current scroll (X/Y)', window.pageXOffset, window.pageYOffset);
+  console.log(
+    'height/width viewport',
+    document.documentElement.clientHeight,
+    document.documentElement.clientWidth
+  );
+
+  /*
+  window.scrollTo(
+    s1coords.left + window.pageXOffset,
+    s1coords.top + window.pageYOffset
+  );
+  */
+
+  /*
+  window.scrollTo({
+    left: s1coords.left + window.pageXOffset,
+    top: s1coords.top + window.pageYOffset,
+    behavior: 'smooth',
+  });
+  */
+
+  section1.scrollIntoView({ behavior: 'smooth' });
+});
